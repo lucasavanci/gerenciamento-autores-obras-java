@@ -1,5 +1,7 @@
 package com.br.gerenciamento.autores.obras.dto;
 
-public record ObraDTO() {
+import java.time.LocalDate;
+
+public record ObraDTO(String nomeObra, String Descricao, LocalDate dataPublicacao, LocalDate dataExposicao) {
 
 }
