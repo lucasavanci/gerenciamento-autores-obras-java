@@ -24,7 +24,7 @@ public class CadastroAutorService {
     public AutorDTO cadastrarAutor(AutorCreateDTO dto){
 
         if(dto.nomeAutor() == null || dto.nomeAutor().isEmpty()){
-            throw new UnprocessableEntity("ERRO-INVALID-NAME-422", ExceptionConstants.NOME_INVALIDO_422.getMessage());
+            throw new UnprocessableEntity("ERRO-INVALID-NAME-0001", ExceptionConstants.NOME_INVALIDO_422.getMessage());
         }
 
         AutorModel autor = autorMapper.toEntity(dto);
