@@ -26,7 +26,7 @@ public class CadastroAutorService {
  
     public AutorDTO cadastrarAutor(AutorCreateDTO dto){
 
-        if(dto.nomeAutor() == null){
+        if(dto.nomeAutor() == null || dto.nomeAutor().isEmpty()){
             throw new UnprocessableEntity(ExceptionConstants.NOME_INVALIDO.getMessage());
         }
 
@@ -36,7 +36,5 @@ public class CadastroAutorService {
         return autorMapper.toDTO(criado);
 
     }
-
     
-
 }
