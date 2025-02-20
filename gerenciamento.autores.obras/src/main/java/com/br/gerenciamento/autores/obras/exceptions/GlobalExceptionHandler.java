@@ -1,27 +1,22 @@
 package com.br.gerenciamento.autores.obras.exceptions;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @RestControllerAdvice
 
 public class GlobalExceptionHandler {
-    
+
     @ExceptionHandler(UnprocessableEntity.class)
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public ErrorResponse handleUnprocessableEntity(UnprocessableEntity ex){
-        return new ErrorResponse(ex.getMessage());
+    public ResponseEntity<ErroResposta> handleUnprocessableEntity(UnprocessableEntity ex) {
+        ErroResposta erro = new ErroResposta(
+            ex.getStatus().value(),
+            ex.getCodigoErro(),
+            ex.getMessage()
+        );
+        return new ResponseEntity<>(erro, ex.getStatus());
     }
 
-    @Getter
-    @AllArgsConstructor
-    static class ErrorResponse {
-        private String message;
-    }
-
+    public record ErroResposta(int status, String codigoErro, String mensagem) {}
 }

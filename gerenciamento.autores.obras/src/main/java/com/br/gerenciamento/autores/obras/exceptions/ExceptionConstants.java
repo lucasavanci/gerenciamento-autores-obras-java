@@ -2,7 +2,7 @@ package com.br.gerenciamento.autores.obras.exceptions;
 
 public enum ExceptionConstants {
 
-	NOME_INVALIDO("422-Fornecer um nome valido.");
+	NOME_INVALIDO_422("422-Fornecer um nome valido.");
 
     private final String message;
 

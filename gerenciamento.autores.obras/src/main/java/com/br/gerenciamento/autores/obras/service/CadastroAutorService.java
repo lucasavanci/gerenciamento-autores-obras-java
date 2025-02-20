@@ -1,8 +1,5 @@
 package com.br.gerenciamento.autores.obras.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.br.gerenciamento.autores.obras.Repository.AutorRepository;
@@ -27,7 +24,7 @@ public class CadastroAutorService {
     public AutorDTO cadastrarAutor(AutorCreateDTO dto){
 
         if(dto.nomeAutor() == null || dto.nomeAutor().isEmpty()){
-            throw new UnprocessableEntity(ExceptionConstants.NOME_INVALIDO.getMessage());
+            throw new UnprocessableEntity("ERRO-INVALID-NAME-422", ExceptionConstants.NOME_INVALIDO_422.getMessage());
         }
 
         AutorModel autor = autorMapper.toEntity(dto);
