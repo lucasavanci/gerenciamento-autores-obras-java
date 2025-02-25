@@ -10,17 +10,18 @@ import com.br.gerenciamento.autores.obras.model.AutorModel;
 public class AutorMapper {
 
     public AutorDTO toDTO(AutorModel autor) {
-        return new AutorDTO(autor.getIdAutor(), autor.getNomeAutor(), autor.getEmail(), autor.getCpf(), autor.getDataNascimento(), autor.getPais(), autor.getSexo());
+        return new AutorDTO(autor.getIdAutor(), autor.getNomeAutor(), autor.getSexo(), autor.getEmail(), autor.getDataNascimento(), autor.getPais(), autor.getCpf());
     }
 
     public AutorModel toEntity(AutorCreateDTO dto) {
         AutorModel autor = new AutorModel();
         autor.setNomeAutor(dto.nomeAutor());
+        autor.setSexo(dto.sexo());
         autor.setEmail(dto.email());
-        autor.setCpf(dto.cpf());
         autor.setDataNascimento(dto.dataNascimento());
         autor.setPais(dto.pais());
-        autor.setSexo(dto.sexo());
+        autor.setCpf(dto.cpf());
+        
         return autor;
     }
 
