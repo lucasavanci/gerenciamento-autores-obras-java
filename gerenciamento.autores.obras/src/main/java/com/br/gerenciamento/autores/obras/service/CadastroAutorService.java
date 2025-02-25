@@ -1,5 +1,7 @@
 package com.br.gerenciamento.autores.obras.service;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +24,11 @@ public class CadastroAutorService {
     @Autowired
     private final AutorRepository autorRepository;
     private final AutorMapper autorMapper;
- 
-    public AutorDTO cadastrarAutor(AutorCreateDTO dto){
+
+    public AutorDTO cadastrarAutor(AutorCreateDTO dto) {
 
         validaNomeAutor(dto.nomeAutor());
-
-        if(dto.dataNascimento() == null || dto.dataNascimento().toString().isEmpty()){
-            throw new UnprocessableEntity("ERRO-DATANASCIMENTO-INVALIDO-0002", ExceptionConstants.DATANASCIMENTO_INVALIDO_422.getMessage());
-        }
+        validaDataNascimento(dto.dataNascimento());
 
         AutorModel autor = autorMapper.toEntity(dto);
         AutorModel criado = autorRepository.save(autor);
@@ -38,12 +37,17 @@ public class CadastroAutorService {
 
     }
 
-    public void validaNomeAutor(String nome){
-
-        if(nome == null || nome.trim().isEmpty()){
+    public void validaNomeAutor(String nome) {
+        if (nome == null || nome.trim().isEmpty()) {
             throw new UnprocessableEntity("ERRO-NOME-INVALIDO-0001", ExceptionConstants.NOME_INVALIDO_422.getMessage());
         }
-
     }
-    
+
+    public void validaDataNascimento(LocalDate dataNascimento) {
+        if (dataNascimento == null || dataNascimento.toString().isEmpty()) {
+            throw new UnprocessableEntity("ERRO-DATANASCIMENTO-INVALIDO-0002",
+                    ExceptionConstants.DATANASCIMENTO_INVALIDO_422.getMessage());
+        }
+    }
+
 }
