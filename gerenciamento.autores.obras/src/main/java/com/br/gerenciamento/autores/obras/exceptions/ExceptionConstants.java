@@ -2,7 +2,8 @@ package com.br.gerenciamento.autores.obras.exceptions;
 
 public enum ExceptionConstants {
 
-	NOME_INVALIDO_422("Fornecer um nome valido.");
+	NOME_INVALIDO_422("Fornecer um nome valido."),
+    DATANASCIMENTO_INVALIDO_422("Fornecer uma data de nascimento valida.");
 
     private final String message;
 

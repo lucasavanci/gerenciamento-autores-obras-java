@@ -1,5 +1,6 @@
 package com.br.gerenciamento.autores.obras.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.br.gerenciamento.autores.obras.Repository.AutorRepository;
@@ -18,13 +19,18 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class CadastroAutorService {
 
+    @Autowired
     private final AutorRepository autorRepository;
     private final AutorMapper autorMapper;
  
     public AutorDTO cadastrarAutor(AutorCreateDTO dto){
 
         if(dto.nomeAutor() == null || dto.nomeAutor().isEmpty()){
-            throw new UnprocessableEntity("ERRO-INVALID-NAME-0001", ExceptionConstants.NOME_INVALIDO_422.getMessage());
+            throw new UnprocessableEntity("ERRO-NOME-INVALIDO-0001", ExceptionConstants.NOME_INVALIDO_422.getMessage());
+        }
+
+        if(dto.dataNascimento() == null || dto.dataNascimento().toString().isEmpty()){
+            throw new UnprocessableEntity("ERRO-DATANASCIMENTO-INVALIDO-0002", ExceptionConstants.DATANASCIMENTO_INVALIDO_422.getMessage());
         }
 
         AutorModel autor = autorMapper.toEntity(dto);
