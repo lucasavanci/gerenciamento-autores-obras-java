@@ -29,6 +29,7 @@ public class CadastroAutorService {
 
         validaNomeAutor(dto.nomeAutor());
         validaDataNascimento(dto.dataNascimento());
+        validaCpf(dto.cpf());
 
         AutorModel autor = autorMapper.toEntity(dto);
         AutorModel criado = autorRepository.save(autor);
@@ -48,6 +49,17 @@ public class CadastroAutorService {
             throw new UnprocessableEntity("ERRO-DATANASCIMENTO-INVALIDO-0002",
                     ExceptionConstants.DATANASCIMENTO_INVALIDO_422.getMessage());
         }
+    }
+
+    public void validaCpf(String cpf) {
+
+        Long cpfExiste = autorRepository.consultarCpfExistente(cpf);
+
+        if(cpfExiste > 0){
+            throw new UnprocessableEntity("ERRO-CPF-EXISTENTE-0003",
+                ExceptionConstants.CPF_JA_CADASTRADO_422.getMessage());
+        }
+
     }
 
 }
