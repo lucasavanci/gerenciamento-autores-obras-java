@@ -25,9 +25,7 @@ public class CadastroAutorService {
  
     public AutorDTO cadastrarAutor(AutorCreateDTO dto){
 
-        if(dto.nomeAutor() == null || dto.nomeAutor().isEmpty()){
-            throw new UnprocessableEntity("ERRO-NOME-INVALIDO-0001", ExceptionConstants.NOME_INVALIDO_422.getMessage());
-        }
+        validaNomeAutor(dto.nomeAutor());
 
         if(dto.dataNascimento() == null || dto.dataNascimento().toString().isEmpty()){
             throw new UnprocessableEntity("ERRO-DATANASCIMENTO-INVALIDO-0002", ExceptionConstants.DATANASCIMENTO_INVALIDO_422.getMessage());
@@ -37,6 +35,14 @@ public class CadastroAutorService {
         AutorModel criado = autorRepository.save(autor);
 
         return autorMapper.toDTO(criado);
+
+    }
+
+    public void validaNomeAutor(String nome){
+
+        if(nome == null || nome.trim().isEmpty()){
+            throw new UnprocessableEntity("ERRO-NOME-INVALIDO-0001", ExceptionConstants.NOME_INVALIDO_422.getMessage());
+        }
 
     }
     
