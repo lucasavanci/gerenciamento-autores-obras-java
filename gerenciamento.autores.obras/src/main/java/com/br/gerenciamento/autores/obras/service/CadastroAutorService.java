@@ -29,14 +29,17 @@ public class CadastroAutorService {
 
     public AutorDTO cadastrarAutor(AutorCreateDTO dto) {
 
-        log.info("Validando nome do autor...");
+        log.info("Validando nome do autor...{}");
         validaNomeAutor(dto.nomeAutor());
+        log.info("Autor ok: {}", dto.nomeAutor());
 
         log.info("Validando data de nascimento...");
         validaDataNascimento(dto.dataNascimento());
-        
+        log.info("Data de nascimento ok: {}", dto.dataNascimento());
+
         log.info("Validando CPF...");
         validaCpf(dto.cpf(), dto.pais());
+        log.info("CPF ok");
 
         AutorModel autor = autorMapper.toEntity(dto);
         AutorModel criado = autorRepository.save(autor);
@@ -66,7 +69,7 @@ public class CadastroAutorService {
 
     public void validaCpf(String cpf, String pais) {
 
-        log.info("Verificando se o pais é Brasil...");
+        log.info("Verificando pais...");
         if (pais.equals(BRASIL)) {
 
             log.info("Pais Brasil. Verificando se o cpf foi informado...");
@@ -82,6 +85,7 @@ public class CadastroAutorService {
 
             if (cpfExiste > 0) {
 
+                log.info("CPF ja cadastrado.");
                 throw new UnprocessableEntity("ERRO-CPF-EXISTENTE-0003",
                         ExceptionConstants.CPF_JA_CADASTRADO_422.getMessage());
 
