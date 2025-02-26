@@ -31,8 +31,10 @@ public class CadastroAutorService {
 
         log.info("Validando nome do autor...");
         validaNomeAutor(dto.nomeAutor());
+
         log.info("Validando data de nascimento...");
         validaDataNascimento(dto.dataNascimento());
+        
         log.info("Validando CPF...");
         validaCpf(dto.cpf(), dto.pais());
 
@@ -45,16 +47,20 @@ public class CadastroAutorService {
 
     public void validaNomeAutor(String nome) {
         if (nome == null || nome.trim().isEmpty()) {
+
             log.info("ERRO-NOME-INVALIDO-0001. Nome invalido.");
             throw new UnprocessableEntity("ERRO-NOME-INVALIDO-0001", ExceptionConstants.NOME_INVALIDO_422.getMessage());
+
         }
     }
 
     public void validaDataNascimento(LocalDate dataNascimento) {
         if (dataNascimento == null || dataNascimento.toString().isEmpty()) {
+
             log.info("ERRO-DATANASCIMENTO-INVALIDO-0002. Data de nascimento invalida");
             throw new UnprocessableEntity("ERRO-DATANASCIMENTO-INVALIDO-0002",
                     ExceptionConstants.DATANASCIMENTO_INVALIDO_422.getMessage());
+
         }
     }
 
@@ -65,6 +71,7 @@ public class CadastroAutorService {
 
             log.info("Pais Brasil. Verificando se o cpf foi informado...");
             if (cpf == null || cpf.trim().isEmpty()) {
+
                 log.info("ERRO-CPF-VAZIO-0004. CPF vazio. Deve informar devido o pais ser Brasil.");
                 throw new UnprocessableEntity("ERRO-CPF-VAZIO-0004",
                         ExceptionConstants.INFORMAR_CPF_BRASIL_422.getMessage());
@@ -74,8 +81,10 @@ public class CadastroAutorService {
             Long cpfExiste = autorRepository.consultarCpfExistente(cpf);
 
             if (cpfExiste > 0) {
+
                 throw new UnprocessableEntity("ERRO-CPF-EXISTENTE-0003",
                         ExceptionConstants.CPF_JA_CADASTRADO_422.getMessage());
+
             }
 
         }

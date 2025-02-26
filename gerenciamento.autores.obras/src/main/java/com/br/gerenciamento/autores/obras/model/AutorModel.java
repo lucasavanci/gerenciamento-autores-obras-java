@@ -26,7 +26,7 @@ public class AutorModel {
     private LocalDate dataNascimento;
     @Column(nullable = false)
     private String pais;
-    @Column(unique = true)
+    @Column(unique = false)
     private String cpf;
 
     public Long getIdAutor(){
