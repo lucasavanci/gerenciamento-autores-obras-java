@@ -25,11 +25,13 @@ public class CadastroAutorService {
     private final AutorRepository autorRepository;
     private final AutorMapper autorMapper;
 
+    String BRASIL = "Brasil";
+
     public AutorDTO cadastrarAutor(AutorCreateDTO dto) {
 
         validaNomeAutor(dto.nomeAutor());
         validaDataNascimento(dto.dataNascimento());
-        validaCpf(dto.cpf());
+        validaCpf(dto.cpf(), dto.pais());
 
         AutorModel autor = autorMapper.toEntity(dto);
         AutorModel criado = autorRepository.save(autor);
@@ -51,13 +53,24 @@ public class CadastroAutorService {
         }
     }
 
-    public void validaCpf(String cpf) {
+    public void validaCpf(String cpf, String pais) {
 
-        Long cpfExiste = autorRepository.consultarCpfExistente(cpf);
+        if (pais.equals(BRASIL)) {
 
-        if(cpfExiste > 0){
-            throw new UnprocessableEntity("ERRO-CPF-EXISTENTE-0003",
-                ExceptionConstants.CPF_JA_CADASTRADO_422.getMessage());
+            if (cpf == null || cpf.trim().isEmpty()) {
+
+                throw new UnprocessableEntity("ERRO-CPF-VAZIO-0004",
+                        ExceptionConstants.INFORMAR_CPF_BRASIL_422.getMessage());
+
+            }
+
+            Long cpfExiste = autorRepository.consultarCpfExistente(cpf);
+
+            if (cpfExiste > 0) {
+                throw new UnprocessableEntity("ERRO-CPF-EXISTENTE-0003",
+                        ExceptionConstants.CPF_JA_CADASTRADO_422.getMessage());
+            }
+
         }
 
     }
