@@ -13,4 +13,7 @@ public interface AutorRepository extends JpaRepository<AutorModel, Long>{
     @Query(value = "SELECT COUNT(*) FROM autores WHERE cpf = :cpf", nativeQuery = true)
     Long consultarCpfExistente(@Param("cpf") String cpf);
 
+    @Query(value = "SELECT COUNT(*) FROM autores WHERE email = :email", nativeQuery = true)
+    Long consultarEmailExistente(@Param("email") String email);
+
 }

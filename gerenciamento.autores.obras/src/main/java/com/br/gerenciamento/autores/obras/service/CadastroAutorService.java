@@ -29,7 +29,7 @@ public class CadastroAutorService {
 
     public AutorDTO cadastrarAutor(AutorCreateDTO dto) {
 
-        log.info("Validando nome do autor...{}");
+        log.info("Validando nome do autor...");
         validaNomeAutor(dto.nomeAutor());
         log.info("Autor ok: {}", dto.nomeAutor());
 
@@ -40,6 +40,10 @@ public class CadastroAutorService {
         log.info("Validando CPF...");
         validaCpf(dto.cpf(), dto.pais());
         log.info("CPF ok");
+
+        log.info("Validando E-mail...");
+        validaEmail(dto.email());
+        log.info("Email {} ok", dto.email());
 
         AutorModel autor = autorMapper.toEntity(dto);
         AutorModel criado = autorRepository.save(autor);
@@ -88,6 +92,23 @@ public class CadastroAutorService {
                 log.info("CPF ja cadastrado.");
                 throw new UnprocessableEntity("ERRO-CPF-EXISTENTE-0003",
                         ExceptionConstants.CPF_JA_CADASTRADO_422.getMessage());
+
+            }
+
+        }
+
+    }
+
+    public void validaEmail(String email){
+
+        if(email != null && !email.trim().isEmpty()){
+            log.info("Validando e-mail: {}", email);
+            Long emailCadastrado = autorRepository.consultarEmailExistente(email);
+
+            if(emailCadastrado > 0){
+
+                throw new UnprocessableEntity("ERRO-EMAIL-EXISTENTE-0004",
+                        ExceptionConstants.EMAIL_JA_CADASTRADO_422.getMessage());
 
             }
 
