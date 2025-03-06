@@ -6,7 +6,8 @@ public enum ExceptionConstants {
     DATANASCIMENTO_INVALIDO_422("Fornecer uma data de nascimento valida."),
     CPF_JA_CADASTRADO_422("O CPF informado ja foi cadastrado anteriormente."),
     INFORMAR_CPF_BRASIL_422("Favor informar um CPF, devido o pais ser Brasil."),
-    EMAIL_JA_CADASTRADO_422("Email ja cadastrado na base de dados.");
+    EMAIL_JA_CADASTRADO_422("Email ja cadastrado na base de dados."),
+    PAIS_INVALIDO_422("Pais informado invalido.");
 
     private final String message;
 

@@ -1,6 +1,8 @@
 package com.br.gerenciamento.autores.obras.service;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,19 +33,23 @@ public class CadastroAutorService {
 
         log.info("Validando nome do autor...");
         validaNomeAutor(dto.nomeAutor());
-        log.info("Autor ok: {}", dto.nomeAutor());
+        log.info("Autor valido: {}", dto.nomeAutor());
 
         log.info("Validando data de nascimento...");
         validaDataNascimento(dto.dataNascimento());
-        log.info("Data de nascimento ok: {}", dto.dataNascimento());
+        log.info("Data de nascimento valido: {}", dto.dataNascimento());
 
         log.info("Validando CPF...");
         validaCpf(dto.cpf(), dto.pais());
-        log.info("CPF ok");
+        log.info("CPF valido");
 
         log.info("Validando E-mail...");
         validaEmail(dto.email());
-        log.info("Email {} ok", dto.email());
+        log.info("Email {} valido", dto.email());
+
+        log.info("Validando Pais de origem...");
+        validaPais(dto.pais());
+        log.info("Pais {} valido", dto.pais());
 
         AutorModel autor = autorMapper.toEntity(dto);
         AutorModel criado = autorRepository.save(autor);
@@ -99,13 +105,13 @@ public class CadastroAutorService {
 
     }
 
-    public void validaEmail(String email){
+    public void validaEmail(String email) {
 
-        if(email != null && !email.trim().isEmpty()){
+        if (email != null && !email.trim().isEmpty()) {
             log.info("Validando e-mail: {}", email);
             Long emailCadastrado = autorRepository.consultarEmailExistente(email);
 
-            if(emailCadastrado > 0){
+            if (emailCadastrado > 0) {
 
                 throw new UnprocessableEntity("ERRO-EMAIL-EXISTENTE-0004",
                         ExceptionConstants.EMAIL_JA_CADASTRADO_422.getMessage());
@@ -113,6 +119,24 @@ public class CadastroAutorService {
             }
 
         }
+
+    }
+
+    public boolean validaPais(String pais) {
+
+        boolean paisValido = Arrays.stream(Locale.getISOCountries())
+                .map(codigo -> new Locale("", codigo))
+                .anyMatch(locale -> locale.getDisplayCountry().equalsIgnoreCase(pais)
+                        || locale.getCountry().equalsIgnoreCase(pais));
+
+        if (!paisValido) {
+
+            throw new UnprocessableEntity("ERRO-PAIS-INVALIDO-0005",
+                    ExceptionConstants.PAIS_INVALIDO_422.getMessage());
+
+        }
+
+        return paisValido;
 
     }
 
