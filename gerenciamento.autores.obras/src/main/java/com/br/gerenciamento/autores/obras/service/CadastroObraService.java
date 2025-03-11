@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.br.gerenciamento.autores.obras.Repository.ObraRepository;
+import com.br.gerenciamento.autores.obras.dto.ObraCreateDTO;
+import com.br.gerenciamento.autores.obras.dto.ObraDTO;
 import com.br.gerenciamento.autores.obras.mapper.ObraMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,8 @@ public class CadastroObraService {
     private final ObraRepository obraRepository;
     private final ObraMapper obraMapper;
 
-    
+    public ObraDTO cadastrarObra(ObraCreateDTO dto){
+        
+    }
     
 }
